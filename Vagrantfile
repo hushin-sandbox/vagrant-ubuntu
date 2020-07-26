@@ -67,9 +67,12 @@ Vagrant.configure("2") do |config|
     timedatectl set-timezone Asia/Tokyo
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    yes '' | apt-get -y -o DPkg::options::="--force-confdef" \
-      -o DPkg::options::="--force-confold" upgrade
-    apt-get install -y curl git
+    apt-get upgrade -y \
+      -o DPkg::options::="--force-confdef" \
+      -o DPkg::options::="--force-confold" \
+      --allow-downgrades \
+      --allow-remove-essential \
+      --allow-change-held-packages
   SHELL
   config.vm.provision "reload"
 end
